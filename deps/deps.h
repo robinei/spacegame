@@ -4,5 +4,3 @@
 #include "stb_image.h"
 #include "mtrand.h"
 
-#define GLEW_STATIC
-#include <GL/glew.h>

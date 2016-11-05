@@ -1,0 +1,34 @@
+
+enum BufferTarget {
+    BUFFER_TARGET_INVALID,
+    
+    BUFFER_TARGET_GENERAL0,
+    BUFFER_TARGET_GENERAL1,
+
+    BUFFER_TARGET_ARRAY,
+    BUFFER_TARGET_INDEX,
+    BUFFER_TARGET_UNIFORM,
+};
+
+enum BufferUsage {
+    BUFFER_USAGE_STATIC_DRAW,
+    BUFFER_USAGE_DYNAMIC_DRAW,
+    BUFFER_USAGE_STREAM_DRAW,
+};
+
+enum BufferAccess {
+    BUFFER_ACCESS_READ_ONLY,
+    BUFFER_ACCESS_WRITE_ONLY,
+    BUFFER_ACCESS_READ_WRITE,
+};
+
+enum ShaderType {
+    SHADER_TYPE_VERTEX,
+    SHADER_TYPE_FRAGMENT,
+};
+
+class Device;
+class BufferObject;
+class Shader;
+class Program;
+

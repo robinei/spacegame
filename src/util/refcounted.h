@@ -28,7 +28,7 @@ class Ref {
 public:
     Ref() : _ptr(0) {}
 
-    Ref(T *ptr = 0) : _ptr(ptr) {
+    explicit Ref(T *ptr) : _ptr(ptr) {
         ptr->addref();
     }
     
@@ -56,12 +56,22 @@ public:
     Ref &operator=(const Ref &ref) {
         return (*this = ref._ptr);
     }
+    
+    T *ptr() { return _ptr; }
+    const T *ptr() const { return _ptr; }
 
     T *operator*() { return _ptr; }
     const T *operator*() const { return _ptr; }
 
     T *operator->() { return _ptr; }
     const T *operator->() const { return _ptr; }
+
+    operator bool() const { return !!_ptr; }
+    
+    bool operator==(T *ptr) const { return _ptr == ptr; }
+    bool operator!=(T *ptr) const { return _ptr != ptr; }
+    bool operator==(const Ref &ref) const { return _ptr == ref._ptr; }
+    bool operator!=(const Ref &ref) const { return _ptr != ref._ptr; }
 };
 
 #endif
