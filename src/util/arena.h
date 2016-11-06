@@ -44,7 +44,8 @@ public:
 
     template<typename T>
     T *alloc() {
-        return (T *)alloc(sizeof(T));
+        char *buf = alloc(sizeof(T));
+        return new (buf) T();
     }
 
 private:

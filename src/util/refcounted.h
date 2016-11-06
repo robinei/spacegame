@@ -74,4 +74,9 @@ public:
     bool operator!=(const Ref &ref) const { return _ptr != ref._ptr; }
 };
 
+template <typename T>
+inline Ref<T> ref(T *ptr) {
+    return Ref<T>(ptr);
+}
+
 #endif

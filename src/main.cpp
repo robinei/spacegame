@@ -1,9 +1,12 @@
+#include "../deps/deps.h"
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 #include <string.h>
 #include <malloc.h>
+#include <math.h>
 
 #define fatal_error(fmt, ...)                   \
     do {                                        \
@@ -11,9 +14,11 @@
         exit(1);                                \
     } while (0)
 
+typedef unsigned char byte;
+typedef unsigned short ushort;
+typedef unsigned int uint;
 
 #include "stdstub.cpp"
-#include "../deps/deps.h"
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_mixer.h"
@@ -25,10 +30,16 @@
 #include "util/refcounted.h"
 #include "util/arena.h"
 #include "util/functors.h"
+#include "util/podvector.h"
 #include "util/hashtable.h"
 #include "util/intrusive_link.h"
 #include "util/intrusive_list.h"
 #include "util/intrusive_hashtable.h"
+#include "math/vec2.h"
+#include "math/vec3.h"
+#include "math/vec4.h"
+#include "math/mat4.h"
+#include "math/quat.h"
 #include "render/render.h"
 
 
@@ -44,7 +55,7 @@ int main(int argc, char *argv[]) {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
         fatal_error("SDL_Init() error: %s", SDL_GetError());
 
-    render_initialize();
+    render::init_sdl_hints();
     
     SDL_DisplayMode mode;
     if (SDL_GetDesktopDisplayMode(0, &mode) < 0)
@@ -63,7 +74,7 @@ int main(int argc, char *argv[]) {
     if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP) < 0)
     	fatal_error("SDL_SetWindowFullscreen() error: %s", SDL_GetError());
 
-    Ref<Device> device(new Device(window));
+    Ref<render::Device> device(render::Device::create(window));
 
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
         fatal_error("Mix_OpenAudio() error: %s", Mix_GetError());
@@ -100,8 +111,8 @@ int main(int argc, char *argv[]) {
 
     printf("Closing audio...\n");
     Mix_CloseAudio();
-    printf("Deleting OpenGL context...\n");
-    device = 0;
+    printf("Deleting render device...\n");
+    device = NULL;
     printf("Destroying window...\n");
     SDL_DestroyWindow(window);
     printf("Shutting down SDL...\n");

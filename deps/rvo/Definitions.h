@@ -87,6 +87,9 @@ namespace RVO {
 
 	template<typename T>
 	class Vector {
+            Vector(const Vector &);
+            Vector &operator=(const Vector &);
+            
 		size_t count;
 		size_t capacity;
 		T *data;

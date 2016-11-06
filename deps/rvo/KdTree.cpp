@@ -38,12 +38,10 @@
 namespace RVO {
 	const size_t RVO_MAX_LEAF_SIZE = 10;
 
-	KdTree::KdTree(RVOSimulator *sim) : sim_(sim) { }
+	KdTree::KdTree(RVOSimulator *sim) : sim_(sim), agents_(sim_->agents_) { }
 
 	void KdTree::buildAgentTree()
 	{
-		agents_ = sim_->agents_;
-
 		if (!agents_.empty()) {
 			agentTree_.resize(2 * agents_.size() - 1);
 			buildAgentTreeRecursive(0, agents_.size(), 0);

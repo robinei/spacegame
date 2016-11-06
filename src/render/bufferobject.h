@@ -1,18 +1,22 @@
+namespace render {
 
 class BufferObject : public RefCounted {
 public:
-    void data(size_t size, const void *data = 0, BufferUsage usage = BUFFER_USAGE_DYNAMIC_DRAW);
-    void write(size_t offset, size_t size, const void *data);
-    void read(size_t offset, size_t size, void *data);
+    void bind(BufferTarget target);
+    void unbind();
+    
+    void data(uint size, const void *data = 0, BufferUsage usage = BUFFER_USAGE_DYNAMIC_DRAW);
+    void write(uint offset, uint size, const void *data);
+    void read(uint offset, uint size, void *data);
 
-    void copy(BufferObject *dst, size_t readoffset, size_t writeoffset, size_t size);
+    void copy(BufferObject *dst, uint readoffset, uint writeoffset, uint size);
 
     void *map(BufferAccess access = BUFFER_ACCESS_READ_WRITE);
-    void *map(size_t offset, size_t length, BufferAccess access = BUFFER_ACCESS_READ_WRITE);
-    void flush(size_t offset, size_t length);
+    void *map(uint offset, uint length, BufferAccess access = BUFFER_ACCESS_READ_WRITE);
+    void flush(uint offset, uint length);
     void unmap();
 
-    size_t size() { return _size; }
+    uint size() { return _size; }
 
 protected:
     BufferObject(Device *device);
@@ -26,9 +30,11 @@ private:
 
     Device *_device;
     BufferTarget _target;
-    bool _pinned_to_target;
+    bool _mapped;
     
-    size_t _size;
-    unsigned int _handle;
+    uint _size;
+    uint _handle;
 };
+
+}
 

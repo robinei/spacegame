@@ -110,9 +110,9 @@ namespace RVO {
 
 		void queryAgentTreeRecursive(Agent *agent, float &rangeSq, size_t node) const;
 
-		Vector<Agent *> agents_;
-		Vector<AgentTreeNode> agentTree_;
 		RVOSimulator *sim_;
+		Vector<Agent *> &agents_;
+		Vector<AgentTreeNode> agentTree_;
 
 		friend class Agent;
 		friend class RVOSimulator;

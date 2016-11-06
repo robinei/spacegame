@@ -1,8 +1,16 @@
 
-#include "render/defs.h"
-#include "render/device.h"
-#include "render/bufferobject.h"
-#include "render/program.h"
+#include "defs.h"
+#include "device.h"
+#include "shader.h"
+#include "program.h"
+#include "bufferobject.h"
+#include "vertexformat.h"
+#include "mesh.h"
+#include "texture.h"
 
-void render_initialize();
+namespace render {
+
+void init_sdl_hints();
+
+}
 

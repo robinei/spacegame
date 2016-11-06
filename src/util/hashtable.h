@@ -76,6 +76,13 @@ public:
         return false;
     }
 
+    void clear() {
+        used = 0;
+        for (uint32_t i = 0; i < size; ++i) {
+            entries[i].hash = 0;
+        }
+    }
+
 private:
     void put(Entry entry) {
         uint32_t start_index = entry.hash & (size - 1);

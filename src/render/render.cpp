@@ -4,10 +4,16 @@
 
 #include "util.cpp"
 #include "device.cpp"
-#include "bufferobject.cpp"
+#include "shader.cpp"
 #include "program.cpp"
+#include "bufferobject.cpp"
+#include "vertexformat.cpp"
+#include "mesh.cpp"
+#include "texture.cpp"
 
-void render_initialize() {
+namespace render {
+
+void init_sdl_hints() {
     bool ok = true;
     ok = ok && SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3) == 0;
     ok = ok && SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1) == 0;
@@ -23,5 +29,7 @@ void render_initialize() {
     ok = ok && SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1) == 0;
     if (!ok)
         fatal_error("SDL_GL_SetAttribute() error: %s", SDL_GetError());
+}
+
 }
 

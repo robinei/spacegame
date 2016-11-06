@@ -1,7 +1,12 @@
+namespace render {
+
+Ref<Device> Device::create(SDL_Window *window) {
+    return ref(new Device(window));
+}
 
 Device::Device(SDL_Window *window) {
-    for (int i = 0; i < TARGET_COUNT; ++i) {
-        target_buffers[i] = 0;
+    for (uint i = 0; i < 8; ++i) {
+        bound_buffers[i] = 0;
     }
     bound_program = 0;
 
@@ -25,6 +30,7 @@ Device::Device(SDL_Window *window) {
 }
 
 Device::~Device() {
+    printf("Deleting OpenGL context...\n");
     SDL_GL_DeleteContext((SDL_GLContext)gl_context);
 }
 
@@ -52,65 +58,34 @@ Ref<Shader> Device::load_shader(ShaderType type, const char *path) {
     return shader;
 }
 
+Ref<VertexFormat> Device::create_vertex_format(bool manual_layout) {
+    return ref(new VertexFormat(manual_layout));
+}
+
+Ref<Mesh> Device::create_mesh(MeshMode mode, uint num_vertex_buffers) {
+    return ref(new Mesh(mode, num_vertex_buffers));
+}
+
+Ref<Texture> Device::create_texture() {
+    return ref(new Texture());
+}
+
+Ref<Texture> Device::load_texture(const char *path) {
+    Ref<Texture> tex(create_texture());
+    tex->load(path);
+    return tex;
+}
+
+Ref<Texture> Device::load_texture_cubemap(const char *paths[6]) {
+    Ref<Texture> tex(create_texture());
+    tex->load_cubemap(paths);
+    return tex;
+}
+
 void Device::clear() {
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-
-void Device::ensure_bound_to_general_target(BufferObject *buffer) {
-    assert(!buffer->_pinned_to_target);
-    const int base = BUFFER_TARGET_GENERAL0;
-    for (int i = 0; i < GENERAL_TARGET_COUNT; ++i) {
-        if (target_buffers[base + i] == buffer) {
-            return;
-        }
-    }
-    for (int i = 0; i < GENERAL_TARGET_COUNT; ++i) {
-        BufferObject *candidate = target_buffers[base + i];
-        if (!candidate->_pinned_to_target) {
-            unbind(candidate);
-            buffer->_target = (BufferTarget)(base + i);
-            target_buffers[buffer->_target] = buffer;
-            glBindBuffer(translateBufferTarget(buffer->_target), buffer->_handle);
-            return;
-        }
-    }
-    fatal_error("not enough available general buffer targets");
-}
-
-void Device::ensure_bound_to_general_targets(BufferObject *buffer0, BufferObject *buffer1) {
-    ensure_bound_to_general_target(buffer0);
-    buffer0->_pinned_to_target = true;
-    ensure_bound_to_general_target(buffer1);
-    buffer0->_pinned_to_target = false;
-}
-
-void Device::unbind(BufferObject *buffer) {
-    assert(!buffer->_pinned_to_target);
-    if (buffer->_target) {
-        assert(buffer == target_buffers[buffer->_target]);
-        glBindBuffer(translateBufferTarget(buffer->_target), 0);
-        target_buffers[buffer->_target] = 0;
-        buffer->_target = BUFFER_TARGET_INVALID;
-    }
-}
-
-void Device::maybe_bind(Program *program) {
-    if (bound_program == program) {
-        return;
-    }
-    if (bound_program) {
-        maybe_unbind(bound_program);
-    }
-    glUseProgram(program->_program);
-    bound_program = program;
-}
-
-void Device::maybe_unbind(Program *program) {
-    if (bound_program == program) {
-        glUseProgram(0);
-        bound_program = 0;
-    }
 }
 
