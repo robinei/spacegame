@@ -1,7 +1,7 @@
 rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
 
 CC=gcc
-CFLAGS=-fno-exceptions -Wno-unused-variable -Wno-unused-function
+CFLAGS=-fno-exceptions -Wno-unused-variable -Wno-unused-function -DYAML_DECLARE_STATIC
 LIBS=-lm -lrt -lpthread -ldl -lSDL2 -lSDLmain -lSDL2_mixer -lGL
 
 SRC_ALL=$(call rwildcard, src/, *.cpp *.c *.h)
