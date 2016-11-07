@@ -7,6 +7,7 @@
 #include "vertexformat.h"
 #include "mesh.h"
 #include "texture.h"
+#include "plyloader.h"
 
 namespace render {
 

@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
     printf("Starting...\n");
-
+    
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
         fatal_error("SDL_Init() error: %s", SDL_GetError());
 
@@ -79,8 +79,12 @@ int main(int argc, char *argv[]) {
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
         fatal_error("Mix_OpenAudio() error: %s", Mix_GetError());
     }
+    
+    render::PlyLoader ply_loader(device.ptr());
+    Ref<render::Mesh> sphere(ply_loader.load("assets/sphere.ply"));
+    printf("num_indexes: %d\n", (int)sphere->num_indexes());
 
-    bool running = true;
+    bool running = false;
     while (running) {
         device->clear();
         SDL_GL_SwapWindow(window);

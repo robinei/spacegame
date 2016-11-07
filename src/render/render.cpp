@@ -10,6 +10,7 @@
 #include "vertexformat.cpp"
 #include "mesh.cpp"
 #include "texture.cpp"
+#include "plyloader.cpp"
 
 namespace render {
 

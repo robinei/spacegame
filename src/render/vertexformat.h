@@ -4,12 +4,12 @@ class VertexFormat : public RefCounted {
 public:
     enum Hint {
         // 0 for unknown
-        Position = 1,
-        Normal,
-        Tangent,
-        Bitangent,
-        Color,
-        UV
+        POSITION = 1,
+        NORMAL,
+        TANGENT,
+        BITANGENT,
+        COLOR,
+        UV,
     };
 
     struct Attrib {

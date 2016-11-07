@@ -12,8 +12,8 @@ public:
     PODVector() : count(0), capacity(0), data(NULL) {
     }
     
-    PODVector(size_t initial_capacity) : count(0), capacity(0), data(NULL) {
-        resize(initial_capacity);
+    PODVector(size_t initial_count) : count(0), capacity(0), data(NULL) {
+        resize(initial_count);
     }
 
     ~PODVector() {
@@ -58,6 +58,13 @@ public:
             capacity = capacity ? capacity * 2 : 16;
         }
         data = (T *)realloc(data, sizeof(T) * capacity);
+    }
+
+    void reserve(size_t new_capacity) {
+        if (new_capacity > capacity) {
+            capacity = new_capacity;
+            data = (T *)realloc(data, sizeof(T) * capacity);
+        }
     }
 
     void push_back(T value) {
