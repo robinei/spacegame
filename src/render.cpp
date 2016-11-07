@@ -12,17 +12,17 @@
 #include "util/podvector.h"
 #include "math/math.h"
 
-#include "render.h"
+#include "render/render.h"
 
-#include "util.cpp"
-#include "device.cpp"
-#include "shader.cpp"
-#include "program.cpp"
-#include "bufferobject.cpp"
-#include "vertexformat.cpp"
-#include "mesh.cpp"
-#include "texture.cpp"
-#include "plyloader.cpp"
+#include "render/util.cpp"
+#include "render/device.cpp"
+#include "render/shader.cpp"
+#include "render/program.cpp"
+#include "render/bufferobject.cpp"
+#include "render/vertexformat.cpp"
+#include "render/mesh.cpp"
+#include "render/texture.cpp"
+#include "render/plyloader.cpp"
 
 namespace render {
 

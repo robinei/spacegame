@@ -10,7 +10,7 @@ file(GLOB_RECURSE DEPS_SOURCES deps/*.cpp deps/*.c)
 add_library(deps STATIC ${DEPS_SOURCES})
 target_include_directories(deps PRIVATE deps)
 
-add_library(render OBJECT src/render/render.cpp)
+add_library(render OBJECT src/render.cpp)
 target_include_directories(render PRIVATE deps)
 target_include_directories(render PRIVATE src)
 target_compile_options(render PUBLIC -Wall)
