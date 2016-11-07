@@ -1,6 +1,18 @@
+#include "common.h"
+
 #define GLEW_STATIC
 #include <GL/glew.h>
+#include "SDL2/SDL.h"
 #include "SDL2/SDL_opengl.h"
+
+#include "stb_image.h"
+#include "rply.h"
+
+#include "util/refcounted.h"
+#include "util/podvector.h"
+#include "math/math.h"
+
+#include "render.h"
 
 #include "util.cpp"
 #include "device.cpp"

@@ -1,4 +1,3 @@
-
 #include "defs.h"
 #include "device.h"
 #include "shader.h"

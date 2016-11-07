@@ -1,5 +1,3 @@
-#include "stb_image.h"
-
 namespace render {
 
 Texture::Texture() : bound_target(TEXTURE_TARGET_INVALID) {

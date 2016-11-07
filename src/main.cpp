@@ -1,22 +1,6 @@
 #include "../deps/deps.h"
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <assert.h>
-#include <string.h>
-#include <malloc.h>
-#include <math.h>
-
-#define fatal_error(fmt, ...)                   \
-    do {                                        \
-        printf(fmt "\n", ##__VA_ARGS__);        \
-        exit(1);                                \
-    } while (0)
-
-typedef unsigned char byte;
-typedef unsigned short ushort;
-typedef unsigned int uint;
+#include "common.h"
 
 #include "stdstub.cpp"
 
@@ -35,11 +19,7 @@ typedef unsigned int uint;
 #include "util/intrusive_link.h"
 #include "util/intrusive_list.h"
 #include "util/intrusive_hashtable.h"
-#include "math/vec2.h"
-#include "math/vec3.h"
-#include "math/vec4.h"
-#include "math/mat4.h"
-#include "math/quat.h"
+#include "math/math.h"
 #include "render/render.h"
 
 
@@ -124,7 +104,4 @@ int main(int argc, char *argv[]) {
     printf("Done.\n");
     return 0;
 }
-
-
-#include "render/render.cpp"
 

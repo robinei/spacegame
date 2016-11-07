@@ -1,5 +1,3 @@
-#include "rply.h"
-
 namespace render {
 
 PlyLoader::PlyLoader(Device *device) : device(device) {
