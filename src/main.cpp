@@ -2,8 +2,6 @@
 
 #include "common.h"
 
-#include "stdstub.cpp"
-
 #include "SDL2/SDL.h"
 #ifdef WIN32
 #include <Windows.h>

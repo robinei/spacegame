@@ -1,4 +1,4 @@
-
+#include <stdlib.h>
 #include <unistd.h>  // for write(), also available on Windows
 
 inline void *emulate_cc_new(size_t len) {
@@ -26,3 +26,4 @@ void  operator delete[](void *p) { return emulate_cc_delete(p); }
 void *__cxa_pure_virtual = 0;
 bool __cxa_guard_acquire() { return true; }
 void __cxa_guard_release() {}
+

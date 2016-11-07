@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.8.8)
+cmake_minimum_required (VERSION 2.6)
 project (SpaceGame)
 
 set(COMMON_FLAGS "-Wno-unused-variable -Wno-unused-function -DYAML_DECLARE_STATIC")
@@ -10,12 +10,7 @@ file(GLOB_RECURSE DEPS_SOURCES deps/*.cpp deps/*.c)
 add_library(deps STATIC ${DEPS_SOURCES})
 target_include_directories(deps PRIVATE deps)
 
-add_library(render OBJECT src/render.cpp)
-target_include_directories(render PRIVATE deps)
-target_include_directories(render PRIVATE src)
-target_compile_options(render PUBLIC -Wall)
-
-add_executable(main src/main.cpp $<TARGET_OBJECTS:render>)
+add_executable(main src/main.cpp src/render.cpp src/stdstub.cpp)
 target_include_directories(main PRIVATE deps)
 target_include_directories(main PRIVATE src)
 target_link_libraries(main deps m rt pthread dl SDL2 SDLmain GL)
