@@ -5,7 +5,6 @@
 #include "stdstub.cpp"
 
 #include "SDL2/SDL.h"
-#include "SDL2/SDL_mixer.h"
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -56,10 +55,6 @@ int main(int argc, char *argv[]) {
 
     Ref<render::Device> device(render::Device::create(window));
 
-    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) {
-        fatal_error("Mix_OpenAudio() error: %s", Mix_GetError());
-    }
-    
     render::PlyLoader ply_loader(device.ptr());
     Ref<render::Mesh> sphere(ply_loader.load("assets/sphere.ply"));
     printf("num_indexes: %d\n", (int)sphere->num_indexes());
@@ -93,8 +88,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    printf("Closing audio...\n");
-    Mix_CloseAudio();
     printf("Deleting render device...\n");
     device = NULL;
     printf("Destroying window...\n");

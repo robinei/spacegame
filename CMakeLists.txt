@@ -18,6 +18,6 @@ target_compile_options(render PUBLIC -Wall)
 add_executable(main src/main.cpp $<TARGET_OBJECTS:render>)
 target_include_directories(main PRIVATE deps)
 target_include_directories(main PRIVATE src)
-target_link_libraries(main deps m rt pthread dl SDL2 SDLmain SDL2_mixer GL)
+target_link_libraries(main deps m rt pthread dl SDL2 SDLmain GL)
 target_compile_options(main PUBLIC -Wall)
 
