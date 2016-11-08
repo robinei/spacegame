@@ -2,7 +2,7 @@
 struct Quat;
 
 inline Quat operator *(Quat a, Quat b);
-inline Quat normalized(Quat q);
+inline Quat normalize(Quat q);
 
 struct Quat {
     float x, y, z, w;
@@ -92,8 +92,8 @@ struct Quat {
     }
 
     static Quat from_arc(Vec3 from, Vec3 to) {
-        return normalized(Quat(cross(from, to), dot(from, to) +
-                               sqrtf(sqr_length(from) * sqr_length(to))));
+        return normalize(Quat(cross(from, to), dot(from, to) +
+                              sqrtf(sqr_length(from) * sqr_length(to))));
     }
     
     static Quat identity() { return Quat(0, 0, 0, 1); }
@@ -112,7 +112,7 @@ inline Quat operator *(Quat a, Quat b) {
 
 inline float sqr_length(Quat q) { return q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w; }
 inline float length(Quat q) { return sqrtf(sqr_length(q)); }
-inline Quat normalized(Quat q) { return q * (1.f / length(q)); }
+inline Quat normalize(Quat q) { return q * (1.f / length(q)); }
 inline float dot(Quat a, Quat b) { return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w; }
 inline Quat conjugate(Quat q) { return Quat(-q.x, -q.y, -q.z, q.w); }
 
@@ -139,14 +139,14 @@ static Quat slerp(Quat q0, Quat q1, float t) {
     if(d > 0.9995f) {
         // If the inputs are too close for comfort, linearly interpolate
         // and normalize the result.
-        return normalized(q0 + (q1 - q0) * t);
+        return normalize(q0 + (q1 - q0) * t);
     }
 
     d = clamp(d, -1.f, 1.f);   // Robustness: Stay within domain of acos()
     float theta0 = acosf(d);   // theta_0 = angle between input vectors
     float theta = theta0 * t;  // theta = angle between q0 and result 
 
-    Quat q2 = normalized(q1 - q0 * d);
+    Quat q2 = normalize(q1 - q0 * d);
 
     // { q0, q2 } is now an orthonormal basis
     return q0 * cosf(theta) + q2 * sinf(theta);

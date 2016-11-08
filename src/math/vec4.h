@@ -37,7 +37,7 @@ inline Vec4 operator /(Vec4 v, float f) { return v * (1.f / f); }
 
 inline float sqr_length(Vec4 v) { return v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w; }
 inline float length(Vec4 v) { return sqrtf(sqr_length(v)); }
-inline Vec4 normalized(Vec4 v) { return v * (1.f / length(v)); }
+inline Vec4 normalize(Vec4 v) { return v * (1.f / length(v)); }
 inline Vec4 abs(Vec4 v) { return Vec4(fabs(v.x), fabs(v.y), fabs(v.z), fabs(v.w)); }
 inline Vec4 inverse(Vec4 v) { return Vec4(1.f / v.x, 1.f / v.y, 1.f / v.z, 1.f / v.w); }
 inline float dot(Vec4 a, Vec4 b) { return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w; }

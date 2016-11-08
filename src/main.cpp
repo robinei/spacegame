@@ -19,6 +19,7 @@
 #include "math/math.h"
 #include "render/render.h"
 
+#include "game/fpscamera.h"
 
 int main(int argc, char *argv[]) {
 #ifdef WIN32
@@ -28,7 +29,7 @@ int main(int argc, char *argv[]) {
     }
 #endif
     printf("Starting...\n");
-    
+
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
         fatal_error("SDL_Init() error: %s", SDL_GetError());
 
@@ -53,10 +54,30 @@ int main(int argc, char *argv[]) {
 
     Ref<render::Device> device(render::Device::create(window));
 
+
     render::PlyLoader ply_loader(device.ptr());
-    Ref<render::Mesh> sphere(ply_loader.load("assets/sphere.ply"));
+    Ref<render::Mesh> sphere(ply_loader.load("data/meshes/sphere.ply"));
     printf("num_indexes: %d\n", (int)sphere->num_indexes());
 
+    Ref<render::Program> program(device->create_program());
+    program->attach(device->load_shader(render::SHADER_TYPE_VERTEX, "data/shaders/skybox.vert"));
+    program->attach(device->load_shader(render::SHADER_TYPE_FRAGMENT, "data/shaders/skybox.frag"));
+    program->attrib("in_pos", 0);
+    program->link();
+    program->detach_all();
+
+    const char *paths[6] = {
+        "data/skyboxes/default_right1.jpg",
+        "data/skyboxes/default_left2.jpg",
+        "data/skyboxes/default_top3.jpg",
+        "data/skyboxes/default_bottom4.jpg",
+        "data/skyboxes/default_front5.jpg",
+        "data/skyboxes/default_back6.jpg"
+    };
+    Ref<render::Texture> texture(device->load_texture_cubemap(paths));
+
+    Mat4 view_matrix, projection_matrix;
+    
     bool running = false;
     while (running) {
         device->clear();

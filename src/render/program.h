@@ -5,7 +5,7 @@ public:
     void bind();
     void unbind();
 
-    void attach(Shader *shader);
+    void attach(Ref<Shader> shader);
     Shader *attached(ShaderType type);
     void detach(Shader *shader);
     void detach(ShaderType type);

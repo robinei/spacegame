@@ -14,6 +14,8 @@ struct Vec2 {
         return (&x)[i];
     }
 
+    Vec2 &operator+=(Vec2 v);
+
     static Vec2 zero() { return Vec2(0, 0); }
     static Vec2 unit_x() { return Vec2(1, 0); }
     static Vec2 unit_y() { return Vec2(0, 1); }
@@ -28,9 +30,11 @@ inline Vec2 operator *(Vec2 a, Vec2 b) { return Vec2(a.x * b.x, a.y * b.y); }
 inline Vec2 operator /(Vec2 a, Vec2 b) { return Vec2(a.x / b.x, a.y / b.y); }
 inline Vec2 operator /(Vec2 v, float f) { return v * (1.f / f); }
 
+inline Vec2 &Vec2::operator+=(Vec2 v) { *this = *this * v; return *this; }
+
 inline float sqr_length(Vec2 v) { return v.x * v.x + v.y * v.y; }
 inline float length(Vec2 v) { return sqrtf(sqr_length(v)); }
-inline Vec2 normalized(Vec2 v) { return v * (1.f / length(v)); }
+inline Vec2 normalize(Vec2 v) { return v * (1.f / length(v)); }
 inline Vec2 abs(Vec2 v) { return Vec2(fabs(v.x), fabs(v.y)); }
 inline Vec2 inverse(Vec2 v) { return Vec2(1.f / v.x, 1.f / v.y); }
 inline float dot(Vec2 a, Vec2 b) { return a.x * b.x + a.y * b.y; }

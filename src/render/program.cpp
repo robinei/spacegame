@@ -29,7 +29,7 @@ void Program::unbind() {
     }
 }
 
-void Program::attach(Shader *shader) {
+void Program::attach(Ref<Shader> shader) {
     _shaders[shader->type()] = shader;
     glAttachShader(_program, shader->_shader);
 }

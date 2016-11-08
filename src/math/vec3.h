@@ -17,6 +17,8 @@ struct Vec3 {
 
     Vec2 xy() { return Vec2(x, y); }
 
+    Vec3 &operator+=(Vec3 v);
+    
     static Vec3 zero() { return Vec3(0, 0, 0); }
     static Vec3 unit_x() { return Vec3(1, 0, 0); }
     static Vec3 unit_y() { return Vec3(0, 1, 0); }
@@ -32,9 +34,12 @@ inline Vec3 operator *(Vec3 a, Vec3 b) { return Vec3(a.x * b.x, a.y * b.y, a.z *
 inline Vec3 operator /(Vec3 a, Vec3 b) { return Vec3(a.x / b.x, a.y / b.y, a.z / b.z); }
 inline Vec3 operator /(Vec3 v, float f) { return v * (1.f / f); }
 
+inline Vec3 &Vec3::operator+=(Vec3 v) { *this = *this * v; return *this; }
+
 inline float sqr_length(Vec3 v) { return v.x * v.x + v.y * v.y + v.z * v.z; }
 inline float length(Vec3 v) { return sqrtf(sqr_length(v)); }
-inline Vec3 normalized(Vec3 v) { return v * (1.f / length(v)); }
+inline Vec3 normalize
+(Vec3 v) { return v * (1.f / length(v)); }
 inline Vec3 abs(Vec3 v) { return Vec3(fabs(v.x), fabs(v.y), fabs(v.z)); }
 inline Vec3 inverse(Vec3 v) { return Vec3(1.f / v.x, 1.f / v.y, 1.f / v.z); }
 inline float dot(Vec3 a, Vec3 b) { return a.x * b.x + a.y * b.y + a.z * b.z; }
