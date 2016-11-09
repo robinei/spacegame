@@ -5,11 +5,13 @@ public:
     void bind();
     void unbind();
 
+    void set_vertex_format(Ref<VertexFormat> format);
+    VertexFormat *vertex_format();
+
     void attach(Ref<Shader> shader);
-    Shader *attached(ShaderType type);
     void detach(Shader *shader);
-    void detach(ShaderType type);
     void detach_all();
+    
     void link();
 
     int attrib_location(const char *name);
@@ -36,10 +38,11 @@ private:
     Program &operator=(const Program &);
 
     friend class Device;
-    
+
     Device *_device;
-    Ref<Shader> _shaders[2];
     uint _program;
+    Ref<VertexFormat> _vertex_format;
+    Ref<Shader> _shaders[2];
 };
 
 }

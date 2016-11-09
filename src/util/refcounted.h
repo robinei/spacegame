@@ -28,7 +28,7 @@ class Ref {
 public:
     Ref() : _ptr(0) {}
 
-    explicit Ref(T *ptr) : _ptr(ptr) {
+    Ref(T *ptr) : _ptr(ptr) {
         ptr->addref();
     }
     
@@ -73,10 +73,5 @@ public:
     bool operator==(const Ref &ref) const { return _ptr == ref._ptr; }
     bool operator!=(const Ref &ref) const { return _ptr != ref._ptr; }
 };
-
-template <typename T>
-inline Ref<T> ref(T *ptr) {
-    return Ref<T>(ptr);
-}
 
 #endif

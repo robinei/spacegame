@@ -5,9 +5,6 @@ class PODVector {
     size_t capacity;
     T *data;
     
-    PODVector(const PODVector &);
-    PODVector &operator=(const PODVector &);
-    
 public:
     PODVector() : count(0), capacity(0), data(NULL) {
     }
@@ -16,11 +13,22 @@ public:
         resize(initial_count);
     }
 
+    PODVector(const PODVector &v) : count(0), capacity(0), data(NULL) {
+        *this = v;
+    }
+
     ~PODVector() {
         free(data);
     }
 
-    size_t size() const {
+    PODVector &operator=(const PODVector &v) {
+        resize(v.count);
+        if (count) {
+            memcpy(data, v.data, sizeof(T) * count);
+        }
+    }
+    
+    uint size() const {
         return count;
     }
 
@@ -33,17 +41,17 @@ public:
         return data[count - 1];
     }
     
-    const T &at(size_t i) const {
+    const T &at(uint i) const {
         assert(i < count);
         return data[i];
     }
 
-    const T &operator[](size_t i) const {
+    const T &operator[](uint i) const {
         assert(i < count);
         return data[i];
     }
 
-    T &operator[](size_t i) {
+    T &operator[](uint i) {
         assert(i < count);
         return data[i];
     }
@@ -52,15 +60,18 @@ public:
         count = 0;
     }
 
-    void resize(size_t new_count) {
+    void resize(uint new_count) {
         count = new_count;
+        if (count <= capacity) {
+            return;
+        }
         while (new_count > capacity) {
             capacity = capacity ? capacity * 2 : 16;
         }
         data = (T *)realloc(data, sizeof(T) * capacity);
     }
 
-    void reserve(size_t new_capacity) {
+    void reserve(uint new_capacity) {
         if (new_capacity > capacity) {
             capacity = new_capacity;
             data = (T *)realloc(data, sizeof(T) * capacity);

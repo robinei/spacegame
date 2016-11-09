@@ -1,7 +1,7 @@
 namespace render {
 
 Ref<Device> Device::create(SDL_Window *window) {
-    return ref(new Device(window));
+    return new Device(window);
 }
 
 Device::Device(SDL_Window *window) {
@@ -58,16 +58,16 @@ Ref<Shader> Device::load_shader(ShaderType type, const char *path) {
     return shader;
 }
 
-Ref<VertexFormat> Device::create_vertex_format(bool manual_layout) {
-    return ref(new VertexFormat(manual_layout));
+Ref<VertexFormat> Device::create_vertex_format() {
+    return new VertexFormat();
 }
 
 Ref<Mesh> Device::create_mesh(MeshMode mode, uint num_vertex_buffers) {
-    return ref(new Mesh(mode, num_vertex_buffers));
+    return new Mesh(mode, num_vertex_buffers);
 }
 
 Ref<Texture> Device::create_texture() {
-    return ref(new Texture());
+    return new Texture();
 }
 
 Ref<Texture> Device::load_texture(const char *path) {

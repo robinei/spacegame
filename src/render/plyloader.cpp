@@ -67,10 +67,10 @@ Ref<Mesh> PlyLoader::load(const char *filename) {
 
     Ref<VertexFormat> format(device->create_vertex_format());
     if (prop_counts[PROP_X]) {
-        format->add(0, VertexFormat::POSITION, VALUE_TYPE_FLOAT, 3);
+        format->add(0, ATTR_POSITION);
     }
     if (prop_counts[PROP_NX]) {
-        format->add(1, VertexFormat::NORMAL, VALUE_TYPE_FLOAT, 3);
+        format->add(1, ATTR_NORMAL);
     }
 
     Ref<Mesh> mesh(device->create_mesh(mode, 1));    

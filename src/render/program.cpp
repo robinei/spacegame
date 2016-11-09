@@ -29,14 +29,24 @@ void Program::unbind() {
     }
 }
 
-void Program::attach(Ref<Shader> shader) {
-    _shaders[shader->type()] = shader;
-    glAttachShader(_program, shader->_shader);
+void Program::set_vertex_format(Ref<VertexFormat> format) {
+    _vertex_format = format;
 }
 
-Shader *Program::attached(ShaderType type) {
-    from_shader_type(type); // just to validate
-    return _shaders[type].ptr();
+VertexFormat *Program::vertex_format() {
+    return _vertex_format.ptr();
+}
+
+void Program::attach(Ref<Shader> shader) {
+    Ref<Shader> &old(_shaders[shader->type()]);
+    if (old == shader) {
+        return;
+    }
+    if (old) {
+        detach(old.ptr());
+    }
+    _shaders[shader->type()] = shader;
+    glAttachShader(_program, shader->_shader);
 }
 
 void Program::detach(Shader *shader) {
@@ -47,17 +57,21 @@ void Program::detach(Shader *shader) {
 }
 
 void Program::detach_all() {
-    for (uint i = 0; i < 2; ++i)
-        if (_shaders[i])
+    for (uint i = 0; i < 2; ++i) {
+        if (_shaders[i]) {
             detach(_shaders[i].ptr());
-}
-
-void Program::detach(ShaderType type) {
-    from_shader_type(type); // just to validate
-    detach(_shaders[type].ptr());
+        }
+    }
 }
 
 void Program::link() {
+    assert(_vertex_format);
+
+    for (uint i = 0; i < _vertex_format->attrib_count(); ++i) {
+        const VertexFormat::Attrib &a(_vertex_format->attrib(i));
+        attrib(a.spec.name, a.index);
+    }
+
     glLinkProgram(_program);
 
     GLint result, length;

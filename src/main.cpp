@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     Ref<render::Program> program(device->create_program());
     program->attach(device->load_shader(render::SHADER_TYPE_VERTEX, "data/shaders/skybox.vert"));
     program->attach(device->load_shader(render::SHADER_TYPE_FRAGMENT, "data/shaders/skybox.frag"));
-    program->attrib("in_pos", 0);
+    program->set_vertex_format(sphere->vertex_format(0));
     program->link();
     program->detach_all();
 

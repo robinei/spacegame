@@ -99,13 +99,13 @@ void Mesh::bind() {
         for (uint i = 0; i < fmt->attrib_count(); ++i) {
             const VertexFormat::Attrib &attrib = fmt->attrib(i);
             glEnableVertexAttribArray(attrib.index);
-            uint stride = fmt->stride(attrib);
-            if (!value_type_is_integer(attrib.type)) {
-                glVertexAttribPointer(attrib.index, attrib.count, from_value_type(attrib.type),
-                                      attrib.normalized, stride, (const GLvoid *)(ptrdiff_t)attrib.offset);
+            uint stride = fmt->stride();
+            if (!value_type_is_integer(attrib.spec.type)) {
+                glVertexAttribPointer(attrib.index, attrib.spec.count, from_value_type(attrib.spec.type),
+                                      attrib.spec.normalized, stride, (const GLvoid *)(ptrdiff_t)attrib.offset);
             } else {
-                assert(!attrib.normalized);
-                glVertexAttribIPointer(attrib.index, attrib.count, from_value_type(attrib.type),
+                assert(!attrib.spec.normalized);
+                glVertexAttribIPointer(attrib.index, attrib.spec.count, from_value_type(attrib.spec.type),
                                        stride, (const GLvoid *)(ptrdiff_t)attrib.offset);
             }
         }
